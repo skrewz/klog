@@ -114,7 +114,7 @@ static int loop(struct log *log, struct map *map)
 		if ( (key = mapper_get_key(&ev, map)) == NULL )
 			continue;
 
-		logger_save(key, log);
+		//logger_save(key, log);
 	}
 
 	return 0;
@@ -183,11 +183,13 @@ int main(int argc, char *argv[])
 		goto error;
 	}
 
+        /*
 	if ( getuid() != 0 )
 	{
 		fprintf(stderr, "Are you root ?\n");
 		goto error;
 	}
+        */
 
 	if ( (flags & F_NOINSTANCE) == 0 && (pid = check_instance(pidfile)) )
 	{
@@ -226,7 +228,7 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 	}
-
+        setvbuf(stdout, NULL, _IONBF, 0);
 
 	if ( (log = logger_open(logname, argv[0])) == NULL )
 		goto error;

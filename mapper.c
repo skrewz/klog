@@ -9,6 +9,7 @@
 
 #include "compat.h"
 #include "mapper.h"
+#include "logger.h"
 
 /* Represent the different values for one key
  */
@@ -230,13 +231,23 @@ static const char *mapper_get_key_pressed(uint16_t code, struct map *map)
 		/* Capslock is THE special one among of specials
 		 */
 		case KEY_CAPSLOCK:
-		if ( (map->flags & MAP_F_CAPS) == 0 )
-			map->flags |= MAP_F_CAPS;
-		else
-			map->flags &= ~MAP_F_CAPS;
+
 		break;
 
 		default:
+
+                //printf("Affinity for key %d is %c\n",code,keys_association_to_hands[code]);
+                if ( (map->flags & MAP_F_LSHIFT) && (map->flags & MAP_F_CAPS) == 0 )
+                {
+                    if ('R' == keys_association_to_hands[code])
+                        printf("Key %s (code %d) should have been right-shifted\n", (map->key[code].normal),code);
+                }
+                if ( (map->flags & MAP_F_RSHIFT) && (map->flags & MAP_F_CAPS) == 0 )
+                {
+                    if ('L' == keys_association_to_hands[code])
+                        printf("Key %s (code %d) should have been left-shifted\n", (map->key[code].normal),code);
+                }
+
 		if ( mapper_is_shift(map) )
 			return map->key[code].shift;
 		if ( mapper_is_altgr(map) )

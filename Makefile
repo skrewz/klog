@@ -26,6 +26,7 @@ endif
 SRCS:=main.c
 SRCS+=mapper.c
 SRCS+=logger.c
+SRCS+=keys_affinity.c
 
 OBJS:=$(SRCS:%.c=%.o)
 
